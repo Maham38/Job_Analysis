@@ -1,4 +1,4 @@
-document.getElementById('profile-form').addEventListener('submit', function(event) {
+document .getElementById('profile-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
     // Get form values
@@ -32,4 +32,41 @@ document.getElementById('profile-form').addEventListener('submit', function(even
         // Reset form fields
         document.getElementById('profile-form').reset();
     });
+});
+
+document.getElementById('job-filter-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Get filter values
+    const jobTitle = document.getElementById('job-title').value;
+    const location = document.getElementById('location').value;
+    const jobType = document.getElementById('job-type').value;
+
+    // Create a job listing based on filters
+    const jobList = document.getElementById('job-list');
+    jobList.innerHTML = ''; // Clear previous results
+
+    // Example job data (in a real application, this would come from a database or API)
+    const jobs = [
+        { title: 'Software Engineer', location: 'New York', type: 'full-time' },
+        { title: 'Web Developer', location: 'San Francisco', type: 'part-time' },
+        { title: 'Project Manager', location: 'Remote', type: 'contract' },
+    ];
+
+    // Filter jobs based on user input
+    const filteredJobs = jobs.filter(job => {
+        return (!jobTitle || job.title.toLowerCase().includes(jobTitle.toLowerCase())) &&
+               (!location || job.location.toLowerCase().includes(location.toLowerCase())) &&
+               (!jobType || job.type === jobType);
+    });
+
+    // Display filtered jobs
+    filteredJobs.forEach(job => {
+        const li = document.createElement('li');
+        li.textContent = `${job.title} - ${job.location} (${job.type})`;
+        jobList.appendChild(li);
+    });
+
+    // Show filtered jobs section
+    document.getElementById('filtered-jobs').classList.remove('hidden');
 });
